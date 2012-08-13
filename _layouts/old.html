@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+		<title>Express: {{ page.title }}</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script>
+$(function() {
+    var tocs = $('#markdown-toc');
+    $('li ul li ul', tocs).hide();
+    tocs.delegate('ul li ul li', 'click', function(e) {
+        var target = $(e.currentTarget);
+        console.log(target);
+        var hiddens = target.children('ul:hidden');
+        var visibles = target.children('ul:visible');
+        hiddens.show(200);
+        visibles.hide(200);
+        e.stopPropagation();
+    });
+});
+		</script>
+		<style type="text/css">
+body {
+	font-family: Arial, Sans;
+	font-size: 12px;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  position: relative;
+}
+#all {
+	position: relative;
+	width: 600px;
+	height: 100%;
+	margin: auto;
+	padding-bottom: 50px;
+}
+
+#foot {
+	position:absolute;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	margin: auto;
+}
+#foot .inside {
+	width: 600px;
+	margin: auto;
+	position: relative
+}
+#foot .inside .stat {
+	position: absolute;
+	right: 0;
+	top: 50px;
+}
+
+#markdown-toc {
+	position: fixed;
+	top:0;
+	left:0;
+}
+
+a {
+	color: #0300A0;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:visited {
+	color: #3633CC;
+}
+code {
+	background: #eee;
+}
+pre {
+	background: #eee;
+	margin-left: 10px;
+	padding-left: 10px;
+	border-left: 1px solid #A4A4A4;
+	overflow-x: auto;
+}
+
+.primary-links {
+	font-size: 1.5em;
+}
+.primary-links a {
+	margin: 4px;
+}
+.secondary-links {
+	font-size: 1.1em;
+}
+.secondary-links a {
+	margin: 4px;
+}
+
+.post-preview-text {
+	font-style: italic;
+	color: #444;
+}
+#ho_adv {
+	opacity: 0.5;
+}
+		</style>
+	</head>
+<body>
+	<div id="all">
+		<div class="secondary-links">
+			<a href="/">Главная</a>
+			<a href="/blog.html">Блог</a>
+			<a href="http://twitter.com/jsmarkus">Твиттер</a>
+		</div>
+		<div class="primary-links">
+			<a href="/guide.html">Документация Express</a>
+			<a href="/jade/guide.html">Документация по Jade</a>
+			<a href="/mongo-book/">MongoDB Book</a>
+		</div>
+		
+		
+		{{ content }}
+	</div>
+
+
+<div id="foot">
+	<div class="inside">
+		{% if page.original_url && page.original_title %}
+			<small><p>Оригинал (английский): <a href="{{ page.original_url }}">{{ page.original_title }}</a></p>
+			<p>Перевод: <a href="http://twitter.com/jsmarkus">@jsmarkus</a></p></small>
+		{% endif %}
+		<div class="stat">
+			{% include counters.html %}
+		</div>
+	</div>
+</div>
+</body>
+</html>
