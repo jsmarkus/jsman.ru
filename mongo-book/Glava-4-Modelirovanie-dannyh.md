@@ -8,7 +8,6 @@ original_title: The Little MongoDB Book
 
 
 
-{::options parse_block_html="true" /}
 <div class="span3">
 <div class="well sidebar-nav">
 <ul class="nav nav-list">
@@ -27,6 +26,8 @@ original_title: The Little MongoDB Book
 
 </div>
 </div>
+
+{::options parse_block_html="true" /}
 
 <div class="span9">
 
