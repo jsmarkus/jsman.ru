@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+		<title>{{ page.title }} | JSman.ru</title>
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css">
+		<script src="/js/jquery-1.8.0.min.js"></script>
+		<script src="/bootstrap/js/bootstrap-collapse.js"></script>
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+			}
+		</style>
+		{% include header-scripts.html %}
+	</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="/">JSman.RU</a>
+
+		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</a>
+
+
+		<div class="nav-collapse collapsed">
+			
+			<a class="brand visible-desktop" href="#">{{ page.title }}</a>
+
+            <ul class="nav pull-right">
+				<li><a href="/express/">Express</a></li>
+				<li><a href="/jade/">Jade</a></li>
+				<li><a href="/mongo-book/">MongoDB Book</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			{{ content | replace : '[this-is-the-cut]','' }}
+			{% include disqus.html%}
+		</div>
+	</div>
+
+<hr />
+<footer>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span9">
+				{% if page.original_url && page.original_title %}
+					<small><p>Оригинал (английский): <a href="{{ page.original_url }}">{{ page.original_title }}</a></p>
+					<p>Перевод: <a href="http://twitter.com/jsmarkus">@jsmarkus</a></p></small>
+				{% endif %}
+			</div>
+			<div class="span3">
+				{% include counters.html %}
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="/js/jsman.ru.js"></script>
+
+</body>
+</html>
