@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+		<title>{{ page.title }} | JSman.ru</title>
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css">
+		<script src="/js/jquery-1.8.0.min.js"></script>
+		<script src="/bootstrap/js/bootstrap-collapse.js"></script>
+		{% include header-scripts.html %}
+	</head>
+<body>
+{{ content }}
+
+
+
+	<section class="container posts">
+	{% for post in site.posts %}
+		<article>
+			<h2><small>{{ post.date | date_to_string }}</small> <a href="{{ post.url }}">{{ post.title }}</a></h2>
+			<div>{{ post.content | split :'[this-is-the-cut]' | first }}</div>
+			<a href="{{ post.url }}">Читать полностью...</a>
+		<article>
+	{% endfor %}
+	</section>
+
+
+</body>
+</html>

@@ -44,7 +44,8 @@
 
 	<div class="container-fluid">
 		<div class="row-fluid">
-				{{ content }}
+			{{ content | replace : '[this-is-the-cut]','' }}
+			{% include disqus.html%}
 		</div>
 	</div>
 

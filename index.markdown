@@ -1,35 +1,32 @@
 ---
 title: JSman - заметки о Javascript, Node.js
-layout: default
+layout: glagne
 ---
 
-# JSman - заметки о JavaScript, CoffeeScript, Node.js
+<div class="container">
+	<div class="hero-unit">
+		<h1>JSman <small class="hidden-phone">заметки о JavaScript</small></h1>
 
-## [Express](/express/)
+		<div class="row-fluid featured-articles">
 
-Высокопроизводительный веб-фреймворк для NodeJS.
+			<div class="span4">
+				<h2>Express</h2>
+				<div>Веб-фреймворк для NodeJS</div>
+				<div><a href="/express" class="">Читать руководство пользователя</a></div>
+			</div>
 
-Разработчик: [TJ Holowaychuk](http://github.com/visionmedia/)
+			<div class="span4">
+				<h2>Jade</h2>
+				<div>Шаблонизатор на JavaScript</div>
+				<div><a href="/jade" class="">Читать руководство пользователя</a></div>
+			</div>
 
-## [Jade](/jade/)
+			<div class="span4">
+				<h2>MongoDB</h2>
+				<div>Маленькая книга о MongoDB</div>
+				<div><a href="/mongo-book" class="">Читать книгу</a></div>
+			</div>
+		</div>
+	</div>
 
-Шаблонизатор на JavaScript. Может работать как на сервере, так и на клиенте.
-
-Разработчик: [TJ Holowaychuk](http://github.com/visionmedia/)
-
-
-## [The Little Mongo Book](/mongo-book/)
-
-Интересная книга по MongoDb. Позволяет с нуля изучить распространённую no-sql базу данных и начать работать с ней.
-
-Автор: [Karl Seguin](http://openmymind.net/)
-
-##Обо мне
-
-[jsmarkus](http://twitter.com/jsmarkus).
-
-Работаю веб-разработчиком в компании [Inbitec](http://inbitec.com/).
-
-**Важно**:
-
-Пулл реквесты приниматся тут: [https://github.com/jsmarkus/jsman.ru/](https://github.com/jsmarkus/jsman.ru/)
+</div>
