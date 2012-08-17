@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+		<title>{{ page.chapterTitle }} | The Little MongoDB Book</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css">
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+			}
+		</style>
+		{% include header-scripts.html %}
+	</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href=".">The Little MongoDB Book</a>
+          <ul class="nav">
+				<li><a href="#">{{ page.chapterTitle }}</a></li>
+            </ul>
+          <div class="nav-collapse">
+            <ul class="nav pull-right">
+				<li><a href="https://github.com/jsmarkus/the-little-mongodb-book">На Github</a></li>
+				<li><a href="/">JSman.ru</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+				{{ content }}
+		</div>
+	</div>
+
+<hr />
+<footer>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span9">
+				{% if page.original_url && page.original_title %}
+					<small><p>Оригинал (английский): <a href="{{ page.original_url }}">{{ page.original_title }}</a></p>
+					<p>Перевод: <a href="http://twitter.com/jsmarkus">@jsmarkus</a></p></small>
+				{% endif %}
+			</div>
+			<div class="span3">
+				{% include counters.html %}
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="/js/jsman.ru.js"></script>
+
+</body>
+</html>
