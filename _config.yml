@@ -1,2 +1,3 @@
 markdown: kramdown
 exclude: [deploy]
+pygments: true

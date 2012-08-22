@@ -15,11 +15,10 @@
 
 
 	<section class="container posts">
+	<h6>Последние посты:</h6>
 	{% for post in site.posts %}
 		<article>
 			<h2><small>{{ post.date | date_to_string }}</small> <a href="{{ post.url }}">{{ post.title }}</a></h2>
-			<div>{{ post.content | truncatewords : 200 }}</div>
-			<a href="{{ post.url }}">Читать полностью...</a>
 		<article>
 	{% endfor %}
 	</section>
