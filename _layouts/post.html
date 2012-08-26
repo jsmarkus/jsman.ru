@@ -52,6 +52,22 @@
 
 <hr />
 
+<footer>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span9">
+				{% if page.original_url && page.original_title %}
+					<small><p>Оригинал (английский): <a href="{{ page.original_url }}">{{ page.original_title }}</a></p>
+					<p>Перевод: <a href="http://twitter.com/jsmarkus">@jsmarkus</a></p></small>
+				{% endif %}
+			</div>
+			<div class="span3">
+				{% include counters.html %}
+			</div>
+		</div>
+	</div>
+</footer>
+
 <script src="/js/jsman.ru.js"></script>
 
 </body>
