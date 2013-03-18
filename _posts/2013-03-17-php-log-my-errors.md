@@ -1,8 +1,7 @@
 ---
-title: log-my-errors - удалённая консоль для PHP, написанная на Node.js!
+title: log-my-errors - удалённая консоль для PHP, написанная на Node.js
 layout: post
 comments: 1
-published: false
 ---
 
 Всем привет!
@@ -31,7 +30,7 @@ log-my-errors работает на Node.js и поэтому устанавли
 
 Запустился сервер удалённой консоли. Что это значит для нас? Для нас это значит, что мы теперь можем зайти в браузере по адресу http://127.0.0.1:7001/ и в появившемся окне увидеть следующее:
 
-TODO: картинка lme-first-run.png
+![](/i/posts-lme-first-run.png)
 
 Нам надо нажать на кнопку "Get code" и скопировать код.
 
@@ -43,17 +42,17 @@ TODO: картинка lme-first-run.png
 
 Вот, примерно, так:
 
-TODO: картинка lme-working.png
+![](/i/posts-lme-working.png)
 
 Любую строку можно развернуть, чтобы увидеть подробности (stack trace):
 
-TODO: картинка lme-stack-trace.png
+![](/i/posts-lme-stack-trace.png)
 
 ## Логгирование
 
 Есть метод `LME::log($something)`, которым можно пользоваться из PHP для вывода значения переменной в консоль LME. Это почти как `console.log()` в `JavaScript`. Вот как это выглядит:
 
-TODO: картинка lme-working.png
+![](/i/posts-lme-logging.png)
 
 Вот пока и всё, что умеет log-my-errors.
 
