@@ -1,0 +1,74 @@
+<!DOCTYPE html><html><head><title>Express - faq</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;amp;subset=latin,latin-ext"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script><script src="app.js"></script><script src="retina.js"></script></head><body class="inner"><div class="bar"></div><section id="content"><header><section id="logo"><span class="express">express<em>3.0.0</em></span><span class="description"> 
+web application framework for <a href="http://nodejs.org">node  </a></span></section><nav class="clearfix"><a href="./index.html"> Главная</a><a href="./api.html"> API</a><a href="./guide.html"> Руководство</a><a href="./applications.html"> Приложения</a><a href="./community.html"> Сообщество</a><a href="./faq.html"> FAQ</a></nav></header><div id="faq"><section><h3 id="models">Как создавать модели?</h3><p>В Express нет средств для работы с базами данных, это
+полностью может быть возложено на сторонние модули,
+что даёт возможность работать практически с любыми базами данных.
+</p></section><section><h3 id="auth">Как сделать авторизацию пользователей?</h3><p>Это ещё одна область, в которую Express не вмешивается
+и даёт вам возможность использовать любую схему авторизации.
+Вот <a href="https://github.com/visionmedia/express/tree/master/examples/auth">пример</a> простой авторизации с использованием логина и пароля.
+</p></section><section><h3 id="templates">Какой шаблонизатор использует Express?</h3><p>Любой, лишь бы он поддерживал соглашение о вызове <code>(path, locals, callback)</code>.
+По поводу нормализации интерфейсов шаблонизаторов рекомендую посмотреть в сторону проекта
+<a href="https://github.com/visionmedia/consolidate.js">consolidate.js</a>
+Впрочем, шаблонизаторы могут и не входить в этот список, но всё равно поддерживать
+соглашение о вызове, принятое в Express.
+</p></section><section><h3 id="structure">Какова правильная структура моего приложения?</h3><p>Нет однозначного ответа, это сильно зависит от
+от масштабов вашего проекта и от команды разработчиков.
+Для большей гибкости Express не накладывает никаких требований на структуру.
+</p><p>Маршруты и прочая логика приложение могут лежать в любых файлах,
+с любой структурой директорий. Пускай вас вдохновят следующие
+примеры:
+</p><ul><li><a href="https://github.com/visionmedia/express/blob/master/examples/route-separation/index.js#L19">Перечисление маршрутов</a></li><li><a href="https://github.com/visionmedia/express/blob/master/examples/route-map/index.js#L47">Карта маршрутов</a></li><li><a href="https://github.com/visionmedia/express/tree/master/examples/route-loading">Загрузка маршрутов (прим. перев. - битая ссылка)</a></li><li><a href="https://github.com/visionmedia/express/tree/master/examples/mvc">Контроллеры в стиле MVC</a></li></ul><p>Для упрощения подобных паттернов существуют сторонние расширения Express:
+</p><ul><li><a href="https://github.com/visionmedia/express-resource">роутинг, основанный на REST-ресурсах</a></li><li><a href="https://github.com/visionmedia/express-namespace">роутинг, основанный на пространствах имён</a></li></ul></section><section><h3 id="multiple-statics">Как отдавать статику из нескольких директорий?</h3><p>Обычно можно использовать любую прослойку несколько раз
+внутри приложения. ПРи следующей конфигурации по запросу
+"GET /javascripts/jquery.js" сначала будет проверяться файл "./public/javascripts/jquery.js",
+а потом, если не файл обнаружится, то следубющая прослойка будет проверять "./files/javascripts/jquery.js".
+</p><pre class="js"><code>app.use(express.static('public'));
+app.use(express.static('files'));
+</code></pre></section><setup><h3 id="static-prefix">Как можно задать префикс для отдачи статики?</h3><p>Connect умеет "монтировать" прослойки, что позволяет задвать
+"префикс" пути, по которому будет вызвана прослойка,
+при этом префикс с точки зрения самой прослойки
+не будет являться частью пути. Допустим, есть запрос "GET /files/javascripts/jquery.js",
+можно смонтировать прослойку с префиксом "/files", показывая "/javascripts/jquery.js"
+как <code>req.url</code>, что позволяет прослойке отдавать файл:
+</p><pre class="js"><code>app.use('/public', express.static('public')); //(прим. перев.) в оригинале, наверное, опечатка - следует читать так: app.use('/files', express.static('public'));
+</code></pre></setup><setup><h3 id="migration">Как мигрировать приложение с версии Express 2.x?</h3><p>Express 2x скорее всего будет поддерживаться до самого до node 1.0, так что
+особой срочности по обновлению на отрефакторенное API,
+представленное в Express 3x, нет, и если вас устраивает 2x, можете
+оставаться на этой ветке. За информацией о миграции посетите
+страницу вики <a href="https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x">migration</a>
+или посмотрите <a href="https://github.com/visionmedia/express/wiki/New-features-in-3.x">список изменений</a>, сделанных в 3.x. (Прим. перев. - <a href="http://jsman.ru/2012/10/17/express-2-to-3.html">перевод</a>).
+</p></setup><setup><h3 id="404-handling">Как обрабатывать ошибку 404?</h3><p>В Express 404 не является результатом ошибки, поэтому
+прослойка error-handler не перехватывает 404, это порисходит потому, что
+404 свидетельствует о том, что приложению нечего делать -
+иными словами, Express выполнил все прослойки / маршруты
+и обнаружил, что ни один из них не ответил. Всё, что нужно
+сделать - это добавить слой в самом низу, который бы
+обрабатывал 404:
+</p><pre class="js"><code>app.use(function(req, res, next){
+  res.send(404, 'Здесь никого нет!');
+});
+</code></pre></setup><setup><h3 id="error-handling">Как в Express настроить обработчик ошибок?</h3><p>Прослойка обработки ошибок определяется как и другие прослойки,
+однако она должна быть определена с четырьмя аргументами, вот так
+<code>(err, req, res, next)</code>:
+</p><pre class="js"><code>app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.send(500, 'Что-то сломалось!');
+});
+</code></pre><p>Подробнее тут <a href="./guide.html#error-handling">обработка ошибок</a>.
+</p></setup><setup><h3 id="render-html">Как рендерить чистый HTML?</h3><p>Никак! Рендерить HTML с помощью <code>res.render()</code> вообще не надо,
+если есть определённый файл, можно сделать <code>res.sendfile()</code> или
+если нужно отдавать много статики из папки, можно использовать прослойку <code>express.static()</code>
+middleware.
+</p></setup><setup><h3 id="size">Насколько большая кодовая база у Express?</h3><p>Express - очень маленький фреймворк, релиз 3.0.0 имеет всего
+932 SLOC, а обязательная часть Connect, на базе которой построен
+Express - всего 267 SLOC. Дополнительные прослойки, которые поставляются
+Connect, добавляют к этому 1143 SLOC, и они лениво загружаются
+по мере использования.</p></setup></div></section><script>var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25235225-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script><a id="top" href="#"><img src="images/arrow.png"></a><footer><div id="footer-content">© 2012 TJ Holowaychuk. All rights reserved.</div></footer></body></html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html><html><head><title>Express - guide</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;amp;subset=latin,latin-ext"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script><script src="app.js"></script><script src="retina.js"></script></head><body class="inner"><div class="bar"></div><section id="content"><header><section id="logo"><span class="express">express<em>3.0.0</em></span><span class="description"> 
+web application framework for <a href="http://nodejs.org">node  </a></span></section><nav class="clearfix"><a href="./index.html"> Главная</a><a href="./api.html"> API</a><a href="./guide.html"> Руководство</a><a href="./applications.html"> Приложения</a><a href="./community.html"> Сообщество</a><a href="./faq.html"> FAQ</a></nav></header><ul id="menu"><li><ul><li><a href="#intro">Начало работы</a></li><li><a href="#executable">Консольная команда express(1)</a></li><li><a href="#error-handling">Обработка ошибок</a></li><li><a href="#users-online">Подсчёт пользователей онлайн</a></li><li><a href="#proxies">Express через прокси</a></li></ul></li></ul><section><h3 id="intro">Начало работы</h3><p>Предполагается, что node уже установлен (<a href="http://nodejs.org/download">скачать</a>).
+Давайте создадим первое приложение, для этого создайте директорию где-нибудь
+на своей машине:
+</p><pre class="js"><code>$ mkdir hello-world
+</code></pre><p>В этой папке вы создадите своё приложение в виде "пакета", это
+обыкновенный node-овский пакет. Вам понадобится создать файл package.json
+в своей папке, а express прописать как зависимость. Чтобы узнать последнюю версию,
+можно воспользоваться командой <code>npm info express version</code>,
+лучше уазать точную версию, а не "3.x", чтобы потом избежать возможных
+граблей.
+</p><pre class="js"><code>{
+  "name": "hello-world",
+  "description": "hello world test app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x"
+  }
+}
+</code></pre><p>Теперь, когда у вас в папке есть package.json, можно воспользоваться
+<code>npm(1)</code> для установки зависимостей, в частности
+Express:
+</p><pre class="js"><code>$ npm install
+</code></pre><p>Как только npm отработает, в папке ./node_modules появится
+локально установленный пакет Express 3.x. С помощью <code>npm ls</code>
+в этом можно убедиться, вы увидите вот такое дерево
+зависимостей.
+</p><pre class="js"><code>$ npm ls
+hello-world@0.0.1 /private/tmp
+└─┬ express@3.0.0beta7
+  ├── commander@0.6.1
+  ├─┬ connect@2.3.9
+  │ ├── bytes@0.1.0
+  │ ├── cookie@0.0.4
+  │ ├── crc@0.2.0
+  │ ├── formidable@1.0.11
+  │ └── qs@0.4.2
+  ├── cookie@0.0.3
+  ├── debug@0.7.0
+  ├── fresh@0.1.0
+  ├── methods@0.0.1
+  ├── mkdirp@0.3.3
+  ├── range-parser@0.0.4
+  ├─┬ response-send@0.0.1
+  │ └── crc@0.2.0
+  └─┬ send@0.0.3
+    └── mime@1.2.6
+    </code></pre><p>Пора создать само приложение! Создайте файл app.js или server.js,
+имя может быть любым, подключите express, а затем создайте экземпляр приложения с помощью <code>express()</code>:
+</p><pre class="js"><code>var express = require('express');
+var app = express();
+</code></pre><p>Теперь, когда приложение создано, можно начинать определять маршруты с помощью <code>app.МЕТОД()</code>,
+в данном случае на запрос "GET /" попытаемся ответить строкой "Hello World". <code>req</code> и
+<code>res</code> - это те же самые объекты, которые нам предоставляет node, поэтому можно
+пользоваться привычными <code>res.pipe()</code>, <code>req.on('data', callback)</code> и всё, что можно сделать
+без использования Express.
+</p><pre class="js"><code>app.get('/hello.txt', function(req, res){
+  var body = 'Hello World';
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Length', body.length);
+  res.end(body);
+});
+</code></pre><p>Express дополняет эти объекты и даёт нам высокоуровневые методы,
+например, <code>res.send()</code>, который, кроме прочего,
+автоматически добавляет заголовок Content-Length:
+</p><pre class="js"><code>app.get('/hello.txt', function(req, res){
+  res.send('Hello World');
+});
+</code></pre><p>Теперь, чтобы принимать соединения, вызовите метод <code>app.listen()</code>,
+который принимает такие же аргументы, что и node-овский <a href="http://nodejs.org/api/net.html#net_server_listen_port_host_backlog_listeninglistener">net.Server#listen()</a>:
+</p><pre class="js"><code>app.listen(3000);
+console.log('Listening on port 3000');</code></pre></section><section><h3 id="executable">Использование express(1) для генерации приложения</h3><p>Express поставляется с исполняемым файлом <code>express(1)</code>.
+Если с помощью npm Express установлен глобально, эта команда будет доступна
+отовсюду:
+</p><pre class="js"><code>$ npm install -g express
+</code></pre><p>Этот инструмент упрощает создание скелета приложения,
+но круг его задач узок. Например, он подерживает не так уж много шаблонизаторов,
+тогда как сам Express поддерживает вообще любые шаблонизаторы для node.
+Обязательно почитайте <code>--help</code>:
+</p><pre class="js"><code>Usage: express [options]
+
+Options:
+
+  -h, --help          показать эту справку
+  -V, --version       показать номер версии
+  -s, --sessions      добавить поддержку сессий
+  -e, --ejs           использовать шаблонизатор ejs (по умолчанию используется jade)
+  -J, --jshtml        использовать шаблонизатор jshtml (по умолчанию используется jade)
+  -H, --hogan         использовать шаблонизатор hogan.js
+  -c, --css <engine>  использовать CSS-движок <engine> (less|stylus) (по умолчанию используется простой CSS)
+  -f, --force         выполнить принудительно, если директория непустая</engine></engine></code></pre><p>Если надо сгенерировать приложение с EJS, Stylus и поддержкой сессий,
+можно просто выполнить:
+</p><pre class="js"><code>$ express --sessions --css stylus --ejs myapp
+
+create : myapp
+create : myapp/package.json
+create : myapp/app.js
+create : myapp/public
+create : myapp/public/javascripts
+create : myapp/public/images
+create : myapp/public/stylesheets
+create : myapp/public/stylesheets/style.styl
+create : myapp/routes
+create : myapp/routes/index.js
+create : myapp/views
+create : myapp/views/index.ejs
+
+install dependencies:
+  $ cd myapp && npm install
+  
+run the app:
+  $ node app  
+  </code></pre><p>Как для любого другого node-приложения, нам понадобится установить зависимости:
+</p><pre class="js"><code>$ cd myapp
+$ npm install
+</code></pre><p>Запускаем!
+</p><pre class="js"><code>$ node app
+</code></pre><p>Вот и всё, что необходимо для создания и запуска простейшего приложения. Не забывайте,
+что Express не привязан к какой-либо структуре директорий, это просто прототип, на который
+можно опираться в начале. Приложения различной структуры показаны
+в <a href="https://github.com/visionmedia/express/tree/master/examples">примерах</a>
+в github-репозитории.</p></section><section><h3 id="error-handling">Обработка ошибок</h3><p>Прослойки для обработки ошибок определяются, как и любые другие прослойки,
+но с четырьмя аргументами, в таком виде
+<code>(err, req, res, next)</code>:
+</p><pre class="js"><code>app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.send(500, 'Что-то сломалось!');
+});
+</code></pre><p>Хотя это и не обязательно, прослойки для обработки ошибок определяются
+в самом низу, после всех остальных вызовов <code>app.use()</code>, как показано ниже:
+</p><pre class="js"><code>app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(function(err, req, res, next){
+  // логика
+});
+</code></pre><p>Из таких прослоек можно отдавать любые ответы. Можно отвечать
+HTML-страничкой с ошибкой, простым сообщением, JSON-строкой,
+чем угодно, на своё усмотрение.
+</p><p>Для лучшей организации высокоуровневого фреймворка, можно определять
+несколько прослоек обработки ошибок, как впрочем и других прослоек.
+Например, вам надо объявить один обработчик ошибок
+для запросов, сделанных с помощью XHR, другой - для обычных запросов. Вот как это можно сделать:
+</p><pre class="js"><code>app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+</code></pre><p>Здесь <code>logErrors</code> может писать информацию о запросе
+и ошибках в stderr или в loggly или подобные сервисы:
+</p><pre class="js"><code>function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+</code></pre><p>Где <code>clientErrorHandler</code> определён, как показано ниже,
+заметьте, что ошибка явным образом передаётся в next.
+</p><pre class="js"><code>function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.send(500, { error: 'Что-то стряслось!' });
+  } else {
+    next(err);
+  }
+}
+</code></pre><p>Перехватчик всех ошибок <code>errorHandler</code> может быть реализован так:
+</p><pre class="js"><code>function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}</code></pre></section><section><h3 id="users-online">Подсчёт пользователей онлайн</h3><p>В этой секции описано небольшое приложение, подсчитывающее количество пользователей онлайн
+с помощью <a href="http://redis.io">Redis</a>. Прежде всего,
+создайте файл package.json со всеми зависимостями - одна для клиента Redis,
+другая - для Express. Далее, убедитесь, что Redis установлен
+и запущен с помощью <code>$ redis-server</code>.
+</p><pre class="js"><code>{
+  "name": "app",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "3.x",
+    "redis": "*"
+  }
+}
+</code></pre><p>Теперь надо создать приложение и подключение к Redis:
+</p><pre class="js"><code>var express = require('express');
+var redis = require('redis');
+var db = redis.createClient();
+var app = express();
+</code></pre><p>Дальше идёт прослойка для отслеживания пользователей онлайн. Будем использовать
+упорядоченные множества, чтобы можно было запросить у Redis
+онлайн пользователей за последние N миллисекунд. Для этого мы передаём
+отметку времени в качестве весового коэффициента элемента множества. Обратите внимание, что
+мы используем User-Agent вместо нормального ID пользователя.
+</p><pre class="js"><code>app.use(function(req, res, next){
+  var ua = req.headers['user-agent'];
+  db.zadd('online', Date.now(), ua, next);
+});
+</code></pre><p>Следующая прослойка нужна для получения количества пользователей онлайн
+за последнюю минуту, используя <strong>zrevrangebyscore</strong>
+для выборки с <code>max = плюс-бесконечность</code>,
+так что мы всегда получаем наиболее актуальных пользователей, ограниченных
+<code>min = текушее время - 60000 миллисекунд</code>. (TODO: сделать литературнее, чем у автора)
+</p><pre class="js"><code>app.use(function(req, res, next){
+  var min = 60 * 1000;
+  var ago = Date.now() - min;
+  db.zrevrangebyscore('online', '+inf', ago, function(err, users){
+    if (err) return next(err);
+    req.online = users;
+    next();
+  });
+});
+</code></pre><p>Тепер можно повесить наше приложение на порт!
+Чтобы проверить результат, откройте приложение
+в нескольких браузерах и убедитесь, что счётчик увеличивается.
+</p><pre class="js"><code>app.get('/', function(req, res){
+  res.send(req.online.length + ' пользователей онлайн');
+});
+
+app.listen(3000);</code></pre></section><section><h3 id="proxies">Express через прокси</h3><p>Express можно использовать через реверс-прокси (Varnish или Nginx),
+и это просто, хотя и требует конфигурирования. Включите настройку "trust proxy"
+через <code>app.enable('trust proxy')</code>, чтобы Express знал, что
+он работает через прокси и заголовок <code>X-Forwarded-*</code>
+будет приниматься во внимания, а не расцениваться поддельным.
+</p><p>Есть ещё несколько небольших эффектов, вызываемых включением этой настройки. Во-первых,
+через заголовок <code>X-Forwarded-Proto</code> прокси может сообщить
+приложению, протокол - HTTPS или HTTP. Это значение доступно через
+<a href="./api#req.protocol">req.protocol</a>.
+</p><p>Второе изменение - это то, что значения <a href="./api#req.ip">req.ip</a>
+и <a href="./api#req.ips">req.ips</a> заполняются из
+списка адресов в <code>X-Forwarded-For</code>.</p></section></section><script>var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-25235225-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script><a id="top" href="#"><img src="images/arrow.png"></a><footer><div id="footer-content">© 2012 TJ Holowaychuk. All rights reserved.</div></footer></body></html>
