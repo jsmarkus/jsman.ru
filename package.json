@@ -1,0 +1,16 @@
+{
+  "name": "jsman.ru",
+  "private": true,
+  "version": "0.0.1",
+  "description": "jsman.ru website",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jsmarkus/jsman.ru.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-dom-munger": "~2.0.1",
+    "grunt-contrib-copy": "~0.4.1"
+  }
+}
