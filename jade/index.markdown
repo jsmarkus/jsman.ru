@@ -381,6 +381,11 @@ Jade в настоящее время поддерживает разделит�
 
     input(type="checkbox", checked=someValue)
 
+Все javascript выражения также работают (если authenticated = true, class у body будет `authed`, иначе - `anon`):
+
+    // - var authenticated = true
+    body(class=authenticated ? 'authed' : 'anon')
+
 Атрибуты можно разбивать на несколько строк:
 
     input(type='checkbox',
